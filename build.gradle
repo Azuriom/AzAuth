@@ -1,0 +1,21 @@
+plugins {
+    id 'java-library'
+}
+
+group 'com.azuriom'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'com.google.code.gson:gson:2.8.5'
+}
