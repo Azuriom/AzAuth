@@ -17,6 +17,12 @@ public class Role {
         // Gson
     }
 
+    /**
+     * Create a new Role.
+     *
+     * @param name the role name
+     * @param color the role color
+     */
     public Role(String name, Color color) {
         this.name = Objects.requireNonNull(name, "name");
         this.color = Objects.requireNonNull(color, "color");

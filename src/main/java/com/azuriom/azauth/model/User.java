@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PlayerProfile {
+public class User {
 
     private String username;
     private UUID uuid;
@@ -22,14 +22,24 @@ public class PlayerProfile {
      *
      * <p>This prevent Gson to do hacky reflection to instantiate this class.</p>
      */
-    private PlayerProfile() {
+    private User() {
         // Gson
     }
 
     /**
-     * Construct a new GameProfile instance.
+     * Create a new PlayerProfile.
+     *
+     * @param username the player username
+     * @param uuid the player unique id
+     * @param accessToken the player access token
+     * @param email the player email address
+     * @param emailVerified is the email address verified
+     * @param money the player money
+     * @param role the player role
+     * @param banned is the player banned
+     * @param createdAt the player registration date
      */
-    public PlayerProfile(String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
+    public User(String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
         this.username = Objects.requireNonNull(username, "username");
         this.uuid = Objects.requireNonNull(uuid, "uuid");
         this.accessToken = Objects.requireNonNull(accessToken, "accessToken");
@@ -90,7 +100,7 @@ public class PlayerProfile {
     /**
      * Get the player money.
      *
-     * @return the player money.
+     * @return the player money
      */
     public double getMoney() {
         return money;
@@ -99,7 +109,7 @@ public class PlayerProfile {
     /**
      * Get the player role.
      *
-     * @return the player role.
+     * @return the player role
      */
     public Role getRole() {
         return role;
@@ -117,7 +127,7 @@ public class PlayerProfile {
     /**
      * Get the player registration date.
      *
-     * @return the player registration date.
+     * @return the player registration date
      */
     public Instant getCreatedAt() {
         return createdAt;
@@ -132,7 +142,7 @@ public class PlayerProfile {
             return false;
         }
 
-        PlayerProfile that = (PlayerProfile) o;
+        User that = (User) o;
         return emailVerified == that.emailVerified &&
                 Double.compare(that.money, money) == 0 &&
                 banned == that.banned &&

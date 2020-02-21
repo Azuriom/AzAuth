@@ -2,7 +2,7 @@ package com.azuriom.azauth;
 
 import com.azuriom.azauth.gson.ColorSerializer;
 import com.azuriom.azauth.gson.InstantSerializer;
-import com.azuriom.azauth.model.PlayerProfile;
+import com.azuriom.azauth.model.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,8 +60,8 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public PlayerProfile authenticate(String email, String password) throws AuthenticationException, IOException {
-        return this.authenticate(email, password, PlayerProfile.class);
+    public User authenticate(String email, String password) throws AuthenticationException, IOException {
+        return this.authenticate(email, password, User.class);
     }
 
     /**
@@ -69,7 +69,8 @@ public class AzAuthenticator {
      *
      * @param email        the player email
      * @param password     the player password
-     * @param responseType the type of the response
+     * @param responseType the class of the response
+     * @param <T>          the type of the response
      * @return the player profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
@@ -90,15 +91,16 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public PlayerProfile verify(String accessToken) throws AuthenticationException, IOException {
-        return this.verify(accessToken, PlayerProfile.class);
+    public User verify(String accessToken) throws AuthenticationException, IOException {
+        return this.verify(accessToken, User.class);
     }
 
     /**
      * Verify an access token and get the associated profile with a given response type .
      *
      * @param accessToken  the player access token
-     * @param responseType the type of the response
+     * @param responseType the class of the response
+     * @param <T>          the type of the response
      * @return the player profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
