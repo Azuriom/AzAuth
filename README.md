@@ -7,7 +7,7 @@ A Java implementation of the Azuriom Auth API.
 
 ## Usage
 
-You can find how to use AzAuth on our [documentation](https://azuriom.com/docs/auth-api).
+You can find how to use AzAuth on our [documentation](https://azuriom.com/docs/api-auth).
 
 ## Dependencies
 
