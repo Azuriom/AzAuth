@@ -11,4 +11,4 @@ You can find how to use AzAuth on our [documentation](https://azuriom.com/docs/a
 
 ## Dependencies
 
-AzAuth use [Google Gson](https://github.com/google/gson) to deserialize Json.
+AzAuth uses [Google Gson](https://github.com/google/gson) to deserialize Json.
