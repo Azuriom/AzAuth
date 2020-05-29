@@ -10,6 +10,7 @@ public class User {
     private UUID uuid;
     private String accessToken;
 
+    private int id;
     private String email;
     private boolean emailVerified;
     private double money;
@@ -39,7 +40,8 @@ public class User {
      * @param banned is the player banned
      * @param createdAt the player registration date
      */
-    public User(String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
+    public User(int id, String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
+        this.id = id;
         this.username = Objects.requireNonNull(username, "username");
         this.uuid = Objects.requireNonNull(uuid, "uuid");
         this.accessToken = Objects.requireNonNull(accessToken, "accessToken");
@@ -50,6 +52,15 @@ public class User {
         this.money = money;
         this.banned = banned;
         this.createdAt = Objects.requireNonNull(createdAt, "createdAt");
+    }
+
+    /**
+     * Gets the player id.
+     *
+     * @return the player id
+     */
+    public int getId() {
+        return this.id;
     }
 
     /**
