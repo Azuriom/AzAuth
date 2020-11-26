@@ -9,18 +9,18 @@ public class Role {
     private Color color;
 
     /**
-     * Internal constructor, should not be use.
+     * Internal constructor, should not be used.
      *
      * <p>This prevent Gson to do hacky reflection to instantiate this class.</p>
      */
     private Role() {
-        // Gson
+        // For Gson
     }
 
     /**
      * Create a new Role.
      *
-     * @param name the role name
+     * @param name  the role name
      * @param color the role color
      */
     public Role(String name, Color color) {
@@ -34,7 +34,7 @@ public class Role {
      * @return the role name
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -43,7 +43,7 @@ public class Role {
      * @return the role color
      */
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     @Override
@@ -55,16 +55,17 @@ public class Role {
             return false;
         }
         Role role = (Role) o;
-        return Objects.equals(name, role.name) && Objects.equals(color, role.color);
+        return Objects.equals(this.name, role.name) &&
+                Objects.equals(this.color, role.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, color);
+        return Objects.hash(this.name, this.color);
     }
 
     @Override
     public String toString() {
-        return "Role{name='" + name + "'}";
+        return "Role{name='" + this.name + "'}";
     }
 }

@@ -19,26 +19,27 @@ public class User {
     private Instant createdAt;
 
     /**
-     * Internal constructor, should not be use.
+     * Internal constructor, should not be used.
      *
      * <p>This prevent Gson to do hacky reflection to instantiate this class.</p>
      */
     private User() {
-        // Gson
+        // For Gson
     }
 
     /**
      * Create a new PlayerProfile.
      *
-     * @param username the player username
-     * @param uuid the player unique id
-     * @param accessToken the player access token
-     * @param email the player email address
+     * @param id            the user id on the website
+     * @param username      the player username
+     * @param uuid          the player unique id
+     * @param accessToken   the player access token
+     * @param email         the player email address
      * @param emailVerified is the email address verified
-     * @param money the player money
-     * @param role the player role
-     * @param banned is the player banned
-     * @param createdAt the player registration date
+     * @param money         the player money
+     * @param role          the player role
+     * @param banned        is the player banned
+     * @param createdAt     the player registration date
      */
     public User(int id, String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
         this.id = id;
@@ -96,7 +97,7 @@ public class User {
      * @return the player email address
      */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     /**
@@ -105,7 +106,7 @@ public class User {
      * @return {@code true} if the email address is verified, {@code false} otherwise
      */
     public boolean isEmailVerified() {
-        return emailVerified;
+        return this.emailVerified;
     }
 
     /**
@@ -114,7 +115,7 @@ public class User {
      * @return the player money
      */
     public double getMoney() {
-        return money;
+        return this.money;
     }
 
     /**
@@ -123,7 +124,7 @@ public class User {
      * @return the player role
      */
     public Role getRole() {
-        return role;
+        return this.role;
     }
 
     /**
@@ -132,7 +133,7 @@ public class User {
      * @return {@code true} if the player is banned, {@code false} otherwise
      */
     public boolean isBanned() {
-        return banned;
+        return this.banned;
     }
 
     /**
@@ -141,7 +142,7 @@ public class User {
      * @return the player registration date
      */
     public Instant getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     @Override
@@ -153,24 +154,22 @@ public class User {
             return false;
         }
 
-        User that = (User) o;
-        return emailVerified == that.emailVerified &&
-                Double.compare(that.money, money) == 0 &&
-                banned == that.banned &&
-                username.equals(that.username) &&
-                uuid.equals(that.uuid) &&
-                Objects.equals(accessToken, that.accessToken) &&
-                Objects.equals(email, that.email) &&
-                Objects.equals(role, that.role);
+        User user = (User) o;
+        return this.id == user.id &&
+                this.username.equals(user.username) &&
+                this.uuid.equals(user.uuid) &&
+                Objects.equals(this.accessToken, user.accessToken) &&
+                Objects.equals(this.email, user.email) &&
+                Objects.equals(this.role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, uuid, accessToken, email, emailVerified, money, role, banned);
+        return Objects.hash(this.id, this.username, this.uuid, this.accessToken, this.email, this.role);
     }
 
     @Override
     public String toString() {
-        return "AuthResult{username='" + username + "', uuid='" + uuid + "'}";
+        return "AuthResult{id=" + this.id + ", username='" + this.username + "', uuid='" + this.uuid + "'}";
     }
 }

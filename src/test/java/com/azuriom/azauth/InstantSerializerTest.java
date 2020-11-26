@@ -1,0 +1,32 @@
+package com.azuriom.azauth;
+
+import com.azuriom.azauth.gson.InstantSerializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class InstantSerializerTest {
+
+    private static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Instant.class, new InstantSerializer())
+            .create();
+
+    private static final Instant INSTANT = LocalDateTime.of(2019, 2, 1, 3, 45, 27)
+            .toInstant(ZoneOffset.UTC);
+
+    @Test
+    public void testDeserialize() {
+        assertEquals(INSTANT, GSON.fromJson("\"2019-02-01T03:45:27+00:00\"", Instant.class));
+    }
+
+    @Test
+    public void testSerialize() {
+        assertEquals("\"2019-02-01T03:45:27Z\"", GSON.toJson(INSTANT));
+    }
+}

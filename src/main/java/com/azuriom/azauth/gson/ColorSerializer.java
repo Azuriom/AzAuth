@@ -20,6 +20,6 @@ public class ColorSerializer implements JsonSerializer<Color>, JsonDeserializer<
 
     @Override
     public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive("#" + Integer.toHexString(src.getRGB()).substring(2));
+        return new JsonPrimitive('#' + Integer.toHexString(src.getRGB()).substring(2));
     }
 }

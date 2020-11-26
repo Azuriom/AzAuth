@@ -1,10 +1,15 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.azuriom'
-description 'A Java implementation of the Azuriom Auth API.'
 version '1.0-SNAPSHOT'
+
+ext {
+    isReleaseVersion = !version.endsWith('SNAPSHOT')
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,5 +23,84 @@ repositories {
 }
 
 dependencies {
-    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.6'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'AzAuth'
+                description = 'A Java implementation of the Azuriom Auth API.'
+                url = 'https://github.com/Azuriom/AzAuth'
+
+                licenses {
+                    license {
+                        name = 'The MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'mrmicky'
+                        name = 'MrMicky'
+                        email = 'git@mrmicky.fr'
+                    }
+                }
+
+                issueManagement {
+                    system = 'GitHub Issues'
+                    url = 'https://github.com/Azuriom/AzAuth/issues'
+                }
+
+                scm {
+                    connection = 'scm:git:https://github.com/Azuriom/AzAuth.git'
+                    developerConnection = 'scm:git:git@github.com:Azuriom/AzAuth.git'
+                    url = 'https://github.com/Azuriom/AzAuth'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+            url = isReleaseVersion ? releasesRepoUrl : snapshotsRepoUrl
+
+            credentials {
+                username = project.hasProperty('ossrhUsername') ? ossrhUsername : System.getenv('SONATYPE_USERNAME')
+                password = project.hasProperty('ossrhPassword') ? ossrhPassword : System.getenv('SONATYPE_PASSWORD')
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }

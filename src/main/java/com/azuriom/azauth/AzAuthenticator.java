@@ -48,7 +48,7 @@ public class AzAuthenticator {
      * @return the website url
      */
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     /**

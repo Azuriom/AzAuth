@@ -13,11 +13,11 @@ public class AuthResponse {
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     @Override
@@ -30,16 +30,16 @@ public class AuthResponse {
         }
 
         AuthResponse that = (AuthResponse) o;
-        return status.equals(that.status) && message.equals(that.message);
+        return this.status.equals(that.status) && this.message.equals(that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, message);
+        return Objects.hash(this.status, this.message);
     }
 
     @Override
     public String toString() {
-        return "AuthStatus{status='" + status + "', message='" + message + "'}";
+        return "AuthStatus{status='" + this.status + "', message='" + this.message + "'}";
     }
 }
