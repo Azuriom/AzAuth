@@ -1,5 +1,7 @@
 package com.azuriom.azauth;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 public class AuthResponse {
@@ -7,16 +9,26 @@ public class AuthResponse {
     private final String status;
     private final String message;
 
-    public AuthResponse(String status, String message) {
-        this.status = status;
-        this.message = message;
+    public AuthResponse(@NotNull String status, @NotNull String message) {
+        this.status = Objects.requireNonNull(status, "status");
+        this.message = Objects.requireNonNull(message, "message");
     }
 
-    public String getStatus() {
+    /**
+     * Get the response status.
+     *
+     * @return the response status
+     */
+    public @NotNull String getStatus() {
         return this.status;
     }
 
-    public String getMessage() {
+    /**
+     * Get the response message.
+     *
+     * @return the response message
+     */
+    public @NotNull String getMessage() {
         return this.message;
     }
 

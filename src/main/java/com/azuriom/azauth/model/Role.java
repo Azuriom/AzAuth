@@ -1,21 +1,14 @@
 package com.azuriom.azauth.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.util.Objects;
 
 public class Role {
 
-    private String name;
-    private Color color;
-
-    /**
-     * Internal constructor, should not be used.
-     *
-     * <p>This prevent Gson to do hacky reflection to instantiate this class.</p>
-     */
-    private Role() {
-        // For Gson
-    }
+    private final String name;
+    private final Color color;
 
     /**
      * Create a new Role.
@@ -23,7 +16,7 @@ public class Role {
      * @param name  the role name
      * @param color the role color
      */
-    public Role(String name, Color color) {
+    public Role(@NotNull String name, @NotNull Color color) {
         this.name = Objects.requireNonNull(name, "name");
         this.color = Objects.requireNonNull(color, "color");
     }
@@ -33,7 +26,7 @@ public class Role {
      *
      * @return the role name
      */
-    public String getName() {
+    public @NotNull String getName() {
         return this.name;
     }
 
@@ -42,7 +35,7 @@ public class Role {
      *
      * @return the role color
      */
-    public Color getColor() {
+    public @NotNull Color getColor() {
         return this.color;
     }
 
@@ -55,8 +48,7 @@ public class Role {
             return false;
         }
         Role role = (Role) o;
-        return Objects.equals(this.name, role.name) &&
-                Objects.equals(this.color, role.color);
+        return this.name.equals(role.name) && this.color.equals(role.color);
     }
 
     @Override

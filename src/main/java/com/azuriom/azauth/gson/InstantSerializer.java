@@ -7,11 +7,13 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
+@ApiStatus.Internal
 public class InstantSerializer implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
     @Override
@@ -21,6 +23,6 @@ public class InstantSerializer implements JsonSerializer<Instant>, JsonDeseriali
 
     @Override
     public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.toString());
+        return new JsonPrimitive(DateTimeFormatter.ISO_INSTANT.format(src));
     }
 }

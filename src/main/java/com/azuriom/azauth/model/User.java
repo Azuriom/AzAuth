@@ -1,31 +1,25 @@
 package com.azuriom.azauth.model;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
 public class User {
 
-    private String username;
-    private UUID uuid;
-    private String accessToken;
+    private final String username;
+    private final UUID uuid;
+    private final String accessToken;
 
-    private int id;
-    private String email;
-    private boolean emailVerified;
-    private double money;
-    private Role role;
-    private boolean banned;
-    private Instant createdAt;
-
-    /**
-     * Internal constructor, should not be used.
-     *
-     * <p>This prevent Gson to do hacky reflection to instantiate this class.</p>
-     */
-    private User() {
-        // For Gson
-    }
+    private final int id;
+    private final String email;
+    private final boolean emailVerified;
+    private final double money;
+    private final Role role;
+    private final boolean banned;
+    private final Instant createdAt;
 
     /**
      * Create a new PlayerProfile.
@@ -69,7 +63,7 @@ public class User {
      *
      * @return the player username
      */
-    public String getUsername() {
+    public @NotNull String getUsername() {
         return this.username;
     }
 
@@ -78,7 +72,7 @@ public class User {
      *
      * @return the player unique id
      */
-    public UUID getUuid() {
+    public @NotNull UUID getUuid() {
         return this.uuid;
     }
 
@@ -87,7 +81,7 @@ public class User {
      *
      * @return the player access token
      */
-    public String getAccessToken() {
+    public @Nullable String getAccessToken() {
         return this.accessToken;
     }
 
@@ -96,7 +90,7 @@ public class User {
      *
      * @return the player email address
      */
-    public String getEmail() {
+    public @NotNull String getEmail() {
         return this.email;
     }
 
@@ -123,7 +117,7 @@ public class User {
      *
      * @return the player role
      */
-    public Role getRole() {
+    public @NotNull Role getRole() {
         return this.role;
     }
 
@@ -141,7 +135,7 @@ public class User {
      *
      * @return the player registration date
      */
-    public Instant getCreatedAt() {
+    public @NotNull Instant getCreatedAt() {
         return this.createdAt;
     }
 
@@ -159,8 +153,8 @@ public class User {
                 this.username.equals(user.username) &&
                 this.uuid.equals(user.uuid) &&
                 Objects.equals(this.accessToken, user.accessToken) &&
-                Objects.equals(this.email, user.email) &&
-                Objects.equals(this.role, user.role);
+                this.email.equals(user.email) &&
+                this.role.equals(user.role);
     }
 
     @Override

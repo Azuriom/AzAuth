@@ -7,6 +7,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -32,9 +35,9 @@ public class AzAuthenticator {
     /**
      * Construct a new AzAuthenticator instance.
      *
-     * @param url The website url
+     * @param url the website url
      */
-    public AzAuthenticator(String url) {
+    public AzAuthenticator(@NotNull String url) {
         this.url = Objects.requireNonNull(url, "url");
 
         if (url.startsWith("http://")) {
@@ -47,7 +50,7 @@ public class AzAuthenticator {
      *
      * @return the website url
      */
-    public String getUrl() {
+    public @NotNull String getUrl() {
         return this.url;
     }
 
@@ -60,7 +63,8 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public User authenticate(String email, String password) throws AuthenticationException, IOException {
+    public @NotNull User authenticate(@NotNull String email, @NotNull String password)
+            throws AuthenticationException, IOException {
         return this.authenticate(email, password, User.class);
     }
 
@@ -75,7 +79,8 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public <T> T authenticate(String email, String password, Class<T> responseType) throws AuthenticationException, IOException {
+    public <T> @NotNull T authenticate(@NotNull String email, @NotNull String password, @NotNull Class<T> responseType)
+            throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
         body.addProperty("email", email);
         body.addProperty("password", password);
@@ -91,12 +96,12 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public User verify(String accessToken) throws AuthenticationException, IOException {
+    public @NotNull User verify(@NotNull String accessToken) throws AuthenticationException, IOException {
         return this.verify(accessToken, User.class);
     }
 
     /**
-     * Verify an access token and get the associated profile with a given response type .
+     * Verify an access token and get the associated profile with a given response type.
      *
      * @param accessToken  the player access token
      * @param responseType the class of the response
@@ -105,7 +110,8 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public <T> T verify(String accessToken, Class<T> responseType) throws AuthenticationException, IOException {
+    public <T> @NotNull T verify(@NotNull String accessToken, @NotNull Class<T> responseType)
+            throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
 
@@ -114,20 +120,22 @@ public class AzAuthenticator {
 
     /**
      * Invalidate the given access token.
-     * To get a new valid access token you need to {@link #authenticate(String, String)} again.
+     * To get a new valid access token you need to use {@link #authenticate(String, String)} again.
      *
      * @param accessToken the player access token
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
-    public void logout(String accessToken) throws AuthenticationException, IOException {
+    public void logout(@NotNull String accessToken) throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
 
         this.post("logout", body, null);
     }
 
-    private <T> T post(String endPoint, JsonObject body, Class<T> responseType) throws AuthenticationException, IOException {
+    @Contract("_, _, null -> null; _, _, !null -> !null")
+    private <T> T post(@NotNull String endPoint, @NotNull JsonObject body, @Nullable Class<T> responseType)
+            throws AuthenticationException, IOException {
         URL url = new URL(this.url + "/api/auth/" + endPoint);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -152,7 +160,13 @@ public class AzAuthenticator {
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            return GSON.fromJson(reader, responseType);
+            T response = GSON.fromJson(reader, responseType);
+
+            if (response == null) {
+                throw new IllegalStateException("Empty JSON response");
+            }
+
+            return response;
         }
     }
 }
