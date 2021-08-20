@@ -1,7 +1,6 @@
 package com.azuriom.azauth.model;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -81,7 +80,7 @@ public class User {
      *
      * @return the player access token
      */
-    public @Nullable String getAccessToken() {
+    public @NotNull String getAccessToken() {
         return this.accessToken;
     }
 
@@ -164,6 +163,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "AuthResult{id=" + this.id + ", username='" + this.username + "', uuid='" + this.uuid + "'}";
+        return "User{id=" + this.id + ", username='" + this.username + "', uuid='" + this.uuid + "'}";
     }
 }

@@ -1,12 +1,13 @@
 package com.azuriom.azauth;
 
-import com.azuriom.azauth.gson.ColorSerializer;
-import com.azuriom.azauth.gson.InstantSerializer;
+import com.azuriom.azauth.gson.ColorAdapter;
+import com.azuriom.azauth.gson.InstantAdapter;
 import com.azuriom.azauth.model.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Blocking;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,13 +22,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class AzAuthenticator {
 
+    private static final Logger LOGGER = Logger.getLogger(AzAuthenticator.class.getName());
+
     private static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .registerTypeAdapter(Color.class, new ColorSerializer())
-            .registerTypeAdapter(Instant.class, new InstantSerializer())
+            .registerTypeAdapter(Color.class, new ColorAdapter())
+            .registerTypeAdapter(Instant.class, new InstantAdapter())
             .create();
 
     private final String url;
@@ -40,8 +44,8 @@ public class AzAuthenticator {
     public AzAuthenticator(@NotNull String url) {
         this.url = Objects.requireNonNull(url, "url");
 
-        if (url.startsWith("http://")) {
-            System.err.println("[AzLink] The url use HTTP, this is not secure, please consider to upgrade to HTTPS !");
+        if (!url.startsWith("https://")) {
+            LOGGER.warning("HTTP links are not secure, use HTTPS instead.");
         }
     }
 
@@ -63,6 +67,7 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
+    @Blocking
     public @NotNull User authenticate(@NotNull String email, @NotNull String password)
             throws AuthenticationException, IOException {
         return this.authenticate(email, password, User.class);
@@ -79,6 +84,7 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
+    @Blocking
     public <T> @NotNull T authenticate(@NotNull String email, @NotNull String password, @NotNull Class<T> responseType)
             throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
@@ -96,6 +102,7 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
+    @Blocking
     public @NotNull User verify(@NotNull String accessToken) throws AuthenticationException, IOException {
         return this.verify(accessToken, User.class);
     }
@@ -110,6 +117,7 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
+    @Blocking
     public <T> @NotNull T verify(@NotNull String accessToken, @NotNull Class<T> responseType)
             throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
@@ -126,6 +134,7 @@ public class AzAuthenticator {
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
+    @Blocking
     public void logout(@NotNull String accessToken) throws AuthenticationException, IOException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
@@ -133,11 +142,12 @@ public class AzAuthenticator {
         this.post("logout", body, null);
     }
 
+    @Blocking
     @Contract("_, _, null -> null; _, _, !null -> !null")
     private <T> T post(@NotNull String endPoint, @NotNull JsonObject body, @Nullable Class<T> responseType)
             throws AuthenticationException, IOException {
-        URL url = new URL(this.url + "/api/auth/" + endPoint);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        URL apiUrl = new URL(this.url + "/api/auth/" + endPoint);
+        HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
         connection.addRequestProperty("User-Agent", "AzAuth authenticator v1");
