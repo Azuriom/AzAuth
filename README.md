@@ -22,7 +22,7 @@ A Java implementation of the Azuriom Auth API.
     <dependency>
         <groupId>com.azuriom</groupId>
         <artifactId>azauth</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -35,7 +35,7 @@ repositories {
 ```
 ```groovy
 dependencies {
-    implementation 'com.azuriom:azauth:1.0-SNAPSHOT'
+    implementation 'com.azuriom:azauth:0.1.0-SNAPSHOT'
 }
 ```
 
