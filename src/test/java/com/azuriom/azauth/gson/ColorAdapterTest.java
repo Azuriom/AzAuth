@@ -1,6 +1,5 @@
-package com.azuriom.azauth;
+package com.azuriom.azauth.gson;
 
-import com.azuriom.azauth.gson.ColorAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ColorSerializerTest {
+class ColorAdapterTest {
 
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Color.class, new ColorAdapter())

@@ -28,6 +28,7 @@ class AuthenticatorTest {
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getRole());
         assertNotNull(user.getRole().getColor());
+        assertNotNull(user.getUuid());
 
         User verifiedUser = assertDoesNotThrow(() -> authenticator.verify(user.getAccessToken()));
 

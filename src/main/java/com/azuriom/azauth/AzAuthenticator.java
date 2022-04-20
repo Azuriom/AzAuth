@@ -2,6 +2,7 @@ package com.azuriom.azauth;
 
 import com.azuriom.azauth.gson.ColorAdapter;
 import com.azuriom.azauth.gson.InstantAdapter;
+import com.azuriom.azauth.gson.UuidAdapter;
 import com.azuriom.azauth.model.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -22,6 +23,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class AzAuthenticator {
@@ -32,6 +34,7 @@ public class AzAuthenticator {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(Color.class, new ColorAdapter())
             .registerTypeAdapter(Instant.class, new InstantAdapter())
+            .registerTypeAdapter(UUID.class, new UuidAdapter())
             .create();
 
     private final String url;

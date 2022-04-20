@@ -1,6 +1,5 @@
-package com.azuriom.azauth;
+package com.azuriom.azauth.gson;
 
-import com.azuriom.azauth.gson.InstantAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InstantSerializerTest {
+class InstantAdapterTest {
 
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Instant.class, new InstantAdapter())
