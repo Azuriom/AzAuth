@@ -28,6 +28,9 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
+/**
+ * The authentication client for Azuriom.
+ */
 public class AuthClient {
 
     private static final Logger LOGGER = Logger.getLogger(AuthClient.class.getName());
