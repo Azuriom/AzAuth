@@ -1,5 +1,6 @@
 package com.azuriom.azauth;
 
+import com.azuriom.azauth.exception.AuthException;
 import com.azuriom.azauth.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
@@ -12,39 +13,39 @@ import static org.junit.jupiter.api.Assertions.*;
         @EnabledIfEnvironmentVariable(named = "AUTH_TEST_EMAIL", matches = ".+"),
         @EnabledIfEnvironmentVariable(named = "AUTH_TEST_PASSWORD", matches = ".+"),
 })
-class AuthenticatorTest {
+class ClientTest {
 
-    private final AzAuthenticator authenticator = new AzAuthenticator(System.getenv("AUTH_TEST_URL"));
+    private final AuthClient client = new AuthClient(System.getenv("AUTH_TEST_URL"));
     private final String testEmail = System.getenv("AUTH_TEST_EMAIL");
     private final String testPassword = System.getenv("AUTH_TEST_PASSWORD");
 
     @Test
     void testAuthenticateAndLogout() {
-        User user = assertDoesNotThrow(() -> authenticator.authenticate(this.testEmail, this.testPassword));
+        AuthResult<User> result = assertDoesNotThrow(() -> client.login(this.testEmail, this.testPassword));
+        assertTrue(result.isSuccess());
 
+        User user = result.getSuccessResult();
         assertEquals(this.testEmail, user.getEmail());
-
         assertNotNull(user.getAccessToken());
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getRole());
         assertNotNull(user.getRole().getColor());
-        assertNotNull(user.getUuid());
 
-        User verifiedUser = assertDoesNotThrow(() -> authenticator.verify(user.getAccessToken()));
+        AuthResult<User> verifyResult = assertDoesNotThrow(() -> client.verify(user.getAccessToken()));
+        assertTrue(verifyResult.isSuccess());
 
-        assertEquals(user, verifiedUser);
-
-        assertDoesNotThrow(() -> authenticator.logout(user.getAccessToken()));
-
-        assertThrows(AuthenticationException.class, () -> authenticator.verify(user.getAccessToken()));
+        assertEquals(user, verifyResult.asSuccess().getResult());
+        assertDoesNotThrow(() -> client.logout(user.getAccessToken()));
+        assertThrows(AuthException.class, () -> client.verify(user.getAccessToken()));
     }
 
     @Test
     void testAuthenticateWithType() {
-        CustomUser user = assertDoesNotThrow(() ->
-                authenticator.authenticate(this.testEmail, this.testPassword, CustomUser.class));
+        AuthResult<CustomUser> result = assertDoesNotThrow(() ->
+                client.login(this.testEmail, this.testPassword, CustomUser.class));
 
-        assertEquals(this.testEmail, user.email);
+        assertTrue(result.isSuccess());
+        assertEquals(this.testEmail, result.getSuccessResult().email);
     }
 
     static class CustomUser {

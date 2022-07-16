@@ -22,7 +22,7 @@ A Java implementation of the Azuriom Auth API.
     <dependency>
         <groupId>com.azuriom</groupId>
         <artifactId>azauth</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -35,13 +35,33 @@ repositories {
 ```
 ```groovy
 dependencies {
-    implementation 'com.azuriom:azauth:0.1.0-SNAPSHOT'
+    implementation 'com.azuriom:azauth:1.0-SNAPSHOT'
 }
 ```
 
 ## Usage
 
 You can find how to use AzAuth on our [documentation](https://azuriom.com/docs/api-auth).
+
+## Example
+
+### With OpenLauncherLib
+
+```java
+public static void auth(String username, String password) throws AuthException {
+    AuthClient authenticator = new AuthClient("<url>");
+
+    authInfos = authenticator.login(username, password, () -> {
+    String code = null;
+
+    while (code == null) {
+        code = JOptionPane.showInputDialog(frame, "Enter your 2FA code", "2FA", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    return code;
+    }, AuthInfos.class);
+}
+```
 
 ## Dependencies
 
