@@ -110,7 +110,7 @@ public class AuthClient {
 
     /**
      * Try to authenticate the user on the website and get his profile with a given response type.
-     * If the user has 2FA enabled, the {@param codeSupplier} will be called.
+     * If the user has 2FA enabled, the {@code codeSupplier} will be called.
      *
      * @param email        the user email
      * @param password     the user password
@@ -127,7 +127,7 @@ public class AuthClient {
 
     /**
      * Try to authenticate the user on the website and get his profile with a given response type.
-     * If the user has 2FA enabled, the {@param codeSupplier} will be called.
+     * If the user has 2FA enabled, the {@code codeSupplier} will be called.
      *
      * @param email        the user email
      * @param password     the user password
