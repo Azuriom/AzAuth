@@ -52,13 +52,15 @@ public static void auth(String username, String password) throws AuthException {
     AuthClient authenticator = new AuthClient("<url>");
 
     authInfos = authenticator.login(username, password, () -> {
-    String code = null;
+        // Called when 2FA is enabled
+        String code = null;
 
-    while (code == null) {
-        code = JOptionPane.showInputDialog(frame, "Enter your 2FA code", "2FA", JOptionPane.PLAIN_MESSAGE);
-    }
+        while (code == null || code.isEmpty()) {
+            Container parentComponent = LauncherFrame.getInstance().getLauncherPanel();
+            code = JOptionPane.showInputDialog(parentComponent, "Enter your 2FA code", "2FA", JOptionPane.PLAIN_MESSAGE);
+        }
 
-    return code;
+        return code;
     }, AuthInfos.class);
 }
 ```

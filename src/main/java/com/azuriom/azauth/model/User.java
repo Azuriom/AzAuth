@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a user on the website.
+ */
 public class User {
 
     private final String username;

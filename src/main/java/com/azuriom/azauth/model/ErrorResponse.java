@@ -5,12 +5,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+/**
+ * The content of the response when an error occurs.
+ */
 public class ErrorResponse {
 
     private final String status;
     private final String message;
     private final String reason;
 
+    /**
+     * Create a new error response.
+     *
+     * @param status  the response status
+     * @param message the response message
+     * @param reason  the response reason
+     */
     public ErrorResponse(@NotNull String status, @NotNull String message, @Nullable String reason) {
         this.status = Objects.requireNonNull(status, "status");
         this.message = Objects.requireNonNull(message, "message");

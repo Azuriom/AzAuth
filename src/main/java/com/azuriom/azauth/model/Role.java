@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * Represents a user's role on the website.
+ */
 public class Role {
 
     private final String name;
