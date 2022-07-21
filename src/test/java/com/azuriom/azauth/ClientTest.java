@@ -31,10 +31,9 @@ class ClientTest {
         assertNotNull(user.getRole());
         assertNotNull(user.getRole().getColor());
 
-        AuthResult<User> verifyResult = assertDoesNotThrow(() -> client.verify(user.getAccessToken()));
-        assertTrue(verifyResult.isSuccess());
+        User verifyResult = assertDoesNotThrow(() -> client.verify(user.getAccessToken()));
 
-        assertEquals(user, verifyResult.asSuccess().getResult());
+        assertEquals(user, verifyResult);
         assertDoesNotThrow(() -> client.logout(user.getAccessToken()));
         assertThrows(AuthException.class, () -> client.verify(user.getAccessToken()));
     }
