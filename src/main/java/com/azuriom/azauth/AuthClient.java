@@ -41,7 +41,7 @@ public class AuthClient {
             .registerTypeAdapter(Instant.class, new InstantAdapter())
             .create();
 
-    private final String url;
+    private final @NotNull String url;
 
     /**
      * Construct a new AzAuthenticator instance.
@@ -74,7 +74,8 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public @NotNull AuthResult<User> login(@NotNull String email, @NotNull String password) throws AuthException {
+    public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
+                                                    @NotNull String password) throws AuthException {
         return this.login(email, password, User.class);
     }
 
@@ -88,7 +89,7 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public @NotNull AuthResult<User> login(@NotNull String email,
+    public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
                                            @NotNull String password,
                                            @Nullable String code2fa) throws AuthException {
         return this.login(email, password, User.class);
@@ -105,7 +106,7 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public <T> @NotNull AuthResult<T> login(@NotNull String email,
+    public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
                                             @NotNull String password,
                                             @NotNull Class<T> responseType) throws AuthException {
         return login(email, password, (String) null, responseType);
@@ -182,7 +183,7 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public <T> @NotNull AuthResult<T> login(@NotNull String email,
+    public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
                                             @NotNull String password,
                                             @Nullable String code2fa,
                                             @NotNull Class<T> responseType) throws AuthException {
@@ -202,7 +203,7 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public @NotNull AuthResult<User> verify(@NotNull String accessToken) throws AuthException {
+    public @NotNull User verify(@NotNull String accessToken) throws AuthException {
         return this.verify(accessToken, User.class);
     }
 
@@ -216,12 +217,18 @@ public class AuthClient {
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
     @Blocking
-    public <T> @NotNull AuthResult<T> verify(@NotNull String accessToken, @NotNull Class<T> responseType)
+    public <T> @NotNull T verify(@NotNull String accessToken, @NotNull Class<T> responseType)
             throws AuthException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
 
-        return this.post("verify", body, responseType);
+        AuthResult<T> result = this.post("verify", body, responseType);
+
+        if (!result.isSuccess()) {
+            throw new AuthException("Unexpected verification result: " + result);
+        }
+
+        return result.asSuccess().getResult();
     }
 
     /**
