@@ -95,7 +95,7 @@ public class AuthClient {
     public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
                                            @NotNull String password,
                                            @Nullable String code2fa) throws AuthException {
-        return this.login(email, password, User.class);
+        return this.login(email, password, code2fa, User.class);
     }
 
     /**
@@ -251,8 +251,8 @@ public class AuthClient {
 
     @Blocking
     @Contract("_, _, null -> null; _, _, !null -> !null")
-    private <T> AuthResult<T> post(@NotNull String endPoint, @NotNull JsonObject body, @Nullable Class<T> responseType)
-            throws AuthException {
+    private <T> AuthResult<T> post(@NotNull String endPoint, @NotNull JsonObject body,
+                                   @Nullable Class<T> responseType) throws AuthException {
         try {
             return this.doPost(endPoint, body, responseType);
         } catch (IOException e) {
@@ -318,7 +318,7 @@ public class AuthClient {
 
             throw new AuthException(response.getMessage());
         } catch (JsonParseException e) {
-            throw new AuthException("Invalid JSON response from API (" + status + ")");
+            throw new AuthException("Invalid JSON response from API (http " + status + ")");
         }
     }
 }
