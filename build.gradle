@@ -85,14 +85,18 @@ publishing {
             url = isReleaseVersion ? releasesRepoUrl : snapshotsRepoUrl
 
             credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : System.getenv('SONATYPE_USERNAME')
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : System.getenv('SONATYPE_PASSWORD')
+                username = findProperty('ossrhUsername') ?: System.getenv('SONATYPE_USERNAME')
+                password = findProperty('ossrhPassword') ?: System.getenv('SONATYPE_PASSWORD')
             }
         }
     }
 }
 
 signing {
+    def signingKey = System.getenv('SIGNING_KEY')
+    def signingPassword = System.getenv('SIGNING_PASSWORD')
+
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }
 
