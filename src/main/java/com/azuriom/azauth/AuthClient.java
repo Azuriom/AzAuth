@@ -3,6 +3,7 @@ package com.azuriom.azauth;
 import com.azuriom.azauth.exception.AuthException;
 import com.azuriom.azauth.gson.ColorAdapter;
 import com.azuriom.azauth.gson.InstantAdapter;
+import com.azuriom.azauth.gson.UuidAdapter;
 import com.azuriom.azauth.model.ErrorResponse;
 import com.azuriom.azauth.model.User;
 import com.google.gson.FieldNamingPolicy;
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
@@ -39,6 +41,7 @@ public class AuthClient {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(Color.class, new ColorAdapter())
             .registerTypeAdapter(Instant.class, new InstantAdapter())
+            .registerTypeAdapter(UUID.class, new UuidAdapter())
             .create();
 
     private final @NotNull String url;

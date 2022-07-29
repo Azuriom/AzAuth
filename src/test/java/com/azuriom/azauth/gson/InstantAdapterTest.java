@@ -8,9 +8,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class InstantColorTest {
+class InstantAdapterTest {
 
     private static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Instant.class, new InstantAdapter())
