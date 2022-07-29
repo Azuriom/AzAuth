@@ -62,11 +62,11 @@ public class AzAuthenticator {
     }
 
     /**
-     * Try to authenticate the player on the website and get his profile.
+     * Try to authenticate the user on the website and get his profile.
      *
-     * @param email    the player email
-     * @param password the player password
-     * @return the player profile
+     * @param email    the user email
+     * @param password the user password
+     * @return the user profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
@@ -77,13 +77,13 @@ public class AzAuthenticator {
     }
 
     /**
-     * Try to authenticate the player on the website and get his profile with a given response type.
+     * Try to authenticate the user on the website and get his profile with a given response type.
      *
-     * @param email        the player email
-     * @param password     the player password
+     * @param email        the user email
+     * @param password     the user password
      * @param responseType the class of the response
      * @param <T>          the type of the response
-     * @return the player profile
+     * @return the user profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
@@ -100,8 +100,8 @@ public class AzAuthenticator {
     /**
      * Verify an access token and get the associated profile.
      *
-     * @param accessToken the player access token
-     * @return the player profile
+     * @param accessToken the user access token
+     * @return the user profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
@@ -113,10 +113,10 @@ public class AzAuthenticator {
     /**
      * Verify an access token and get the associated profile with a given response type.
      *
-     * @param accessToken  the player access token
+     * @param accessToken  the user access token
      * @param responseType the class of the response
      * @param <T>          the type of the response
-     * @return the player profile
+     * @return the user profile
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */
@@ -133,7 +133,7 @@ public class AzAuthenticator {
      * Invalidate the given access token.
      * To get a new valid access token you need to use {@link #authenticate(String, String)} again.
      *
-     * @param accessToken the player access token
+     * @param accessToken the user access token
      * @throws AuthenticationException if credentials are not valid
      * @throws IOException             if an IO exception occurs
      */

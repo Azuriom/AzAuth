@@ -9,33 +9,22 @@ A Java implementation of the Azuriom Auth API.
 ## Installation
 
 ### Maven
-```xml
-<repositories>
-    <repository>
-        <id>sonatype-repo</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository>
-</repositories>
-```
+
 ```xml
 <dependencies>
     <dependency>
         <groupId>com.azuriom</groupId>
         <artifactId>azauth</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </dependency>
 </dependencies>
 ```
 
 ### Gradle
-```groovy
-repositories {
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-}
-```
+
 ```groovy
 dependencies {
-    implementation 'com.azuriom:azauth:0.1.0-SNAPSHOT'
+    implementation 'com.azuriom:azauth:0.1.0'
 }
 ```
 

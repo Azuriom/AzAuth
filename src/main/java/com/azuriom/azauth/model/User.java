@@ -6,6 +6,9 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a user on the website.
+ */
 public class User {
 
     private final String username;
@@ -21,18 +24,18 @@ public class User {
     private final Instant createdAt;
 
     /**
-     * Create a new PlayerProfile.
+     * Create a new UserProfile.
      *
      * @param id            the user id on the website
-     * @param username      the player username
-     * @param uuid          the player unique id
-     * @param accessToken   the player access token
-     * @param email         the player email address
+     * @param username      the user username
+     * @param uuid          the user unique id
+     * @param accessToken   the user access token
+     * @param email         the user email address
      * @param emailVerified is the email address verified
-     * @param money         the player money
-     * @param role          the player role
-     * @param banned        is the player banned
-     * @param createdAt     the player registration date
+     * @param money         the user money
+     * @param role          the user role
+     * @param banned        is the user banned
+     * @param createdAt     the user registration date
      */
     public User(int id, String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
         this.id = id;
@@ -49,52 +52,52 @@ public class User {
     }
 
     /**
-     * Gets the player id.
+     * Gets the user id.
      *
-     * @return the player id
+     * @return the user id
      */
     public int getId() {
         return this.id;
     }
 
     /**
-     * Gets the player username.
+     * Gets the user username.
      *
-     * @return the player username
+     * @return the user username
      */
     public @NotNull String getUsername() {
         return this.username;
     }
 
     /**
-     * Gets the player unique id.
+     * Gets the user unique id.
      *
-     * @return the player unique id
+     * @return the user unique id
      */
     public @NotNull UUID getUuid() {
         return this.uuid;
     }
 
     /**
-     * Gets the player access token.
+     * Gets the user access token.
      *
-     * @return the player access token
+     * @return the user access token
      */
     public @NotNull String getAccessToken() {
         return this.accessToken;
     }
 
     /**
-     * Gets the player email.
+     * Gets the user email.
      *
-     * @return the player email address
+     * @return the user email address
      */
     public @NotNull String getEmail() {
         return this.email;
     }
 
     /**
-     * Verify if the player email address is verified.
+     * Verify if the user email address is verified.
      *
      * @return {@code true} if the email address is verified, {@code false} otherwise
      */
@@ -103,36 +106,36 @@ public class User {
     }
 
     /**
-     * Get the player money.
+     * Get the user money.
      *
-     * @return the player money
+     * @return the user money
      */
     public double getMoney() {
         return this.money;
     }
 
     /**
-     * Get the player role.
+     * Get the user role.
      *
-     * @return the player role
+     * @return the user role
      */
     public @NotNull Role getRole() {
         return this.role;
     }
 
     /**
-     * Verify if the player is banned.
+     * Verify if the user is banned.
      *
-     * @return {@code true} if the player is banned, {@code false} otherwise
+     * @return {@code true} if the user is banned, {@code false} otherwise
      */
     public boolean isBanned() {
         return this.banned;
     }
 
     /**
-     * Get the player registration date.
+     * Get the user registration date.
      *
-     * @return the player registration date
+     * @return the user registration date
      */
     public @NotNull Instant getCreatedAt() {
         return this.createdAt;
