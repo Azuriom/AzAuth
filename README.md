@@ -11,6 +11,14 @@ A Java implementation of the Azuriom Auth API.
 ### Maven
 
 ```xml
+<repositories>
+    <repository>
+        <id>sonatype-repo</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
+</repositories>
+```
+```xml
 <dependencies>
     <dependency>
         <groupId>com.azuriom</groupId>
@@ -22,6 +30,11 @@ A Java implementation of the Azuriom Auth API.
 
 ### Gradle
 
+```groovy
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+```
 ```groovy
 dependencies {
     implementation 'com.azuriom:azauth:1.0-SNAPSHOT'
