@@ -53,6 +53,10 @@ public class AuthClient {
      */
     public AuthClient(@NotNull String url) {
         this.url = Objects.requireNonNull(url, "url");
+        
+        if (url.endsWith("/")) {
+            this.url = url.substring(0, url.length() - 1);
+        }
 
         if (!url.startsWith("https://")) {
             LOGGER.warning("HTTP links are not secure, use HTTPS instead.");
