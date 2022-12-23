@@ -9,9 +9,9 @@ on:
 jobs:
   analyze:
     name: Analyze
-    
+
     runs-on: ubuntu-latest
-    
+
     permissions:
       actions: read
       contents: read
@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Initialize CodeQL
@@ -36,5 +36,4 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
-          category: "/language:${{ matrix.language }}"
-
+          category: "/language:java"

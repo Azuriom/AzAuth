@@ -1,6 +1,7 @@
 # AzAuth
 
-[![Java CI](https://img.shields.io/github/workflow/status/Azuriom/AzAuth/Java%20CI?style=flat-square)](https://github.com/Azuriom/AzAuth/actions)
+[![Java CI](https://img.shields.io/github/actions/workflow/status/Azuriom/AzAuth/build.yml?branch=master&style=flat-square)](https://github.com/Azuriom/AzAuth/actions/workflows/build.yml)
+[![Code QL](https://img.shields.io/github/actions/workflow/status/Azuriom/AzAuth/codeql.yml?branch=master&style=flat-square&label=code%20quality)](https://github.com/Azuriom/AzAuth/actions/workflows/codeql.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/com.azuriom/azauth.svg?label=Maven%20Central&style=flat-square)](https://search.maven.org/search?q=g:%22com.azuriom%22%20AND%20a:%22azauth%22)
 [![Chat](https://img.shields.io/discord/625774284823986183?color=5865f2&label=Discord&logo=discord&logoColor=fff&style=flat-square)](https://azuriom.com/discord)
 
