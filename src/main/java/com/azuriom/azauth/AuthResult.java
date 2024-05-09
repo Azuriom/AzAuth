@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public interface AuthResult<T> {
 
-    default boolean isSuccess(){
+    default boolean isSuccess() {
         return this instanceof Success;
     }
 

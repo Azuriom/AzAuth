@@ -21,7 +21,7 @@ class ClientTest {
 
     @Test
     void testAuthenticateAndLogout() {
-        AuthResult<User> result = assertDoesNotThrow(() -> client.login(this.testEmail, this.testPassword));
+        AuthResult<User> result = assertDoesNotThrow(() -> this.client.login(this.testEmail, this.testPassword));
         assertTrue(result.isSuccess());
 
         User user = result.getSuccessResult();
@@ -31,10 +31,10 @@ class ClientTest {
         assertNotNull(user.getRole());
         assertNotNull(user.getRole().getColor());
 
-        User verifyResult = assertDoesNotThrow(() -> client.verify(user.getAccessToken()));
+        User verifyResult = assertDoesNotThrow(() -> this.client.verify(user.getAccessToken()));
 
         assertEquals(user, verifyResult);
-        assertDoesNotThrow(() -> client.logout(user.getAccessToken()));
+        assertDoesNotThrow(() -> this.client.logout(user.getAccessToken()));
         assertThrows(AuthException.class, () -> client.verify(user.getAccessToken()));
     }
 

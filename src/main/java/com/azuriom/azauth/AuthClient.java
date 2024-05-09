@@ -6,11 +6,7 @@ import com.azuriom.azauth.gson.InstantAdapter;
 import com.azuriom.azauth.gson.UuidAdapter;
 import com.azuriom.azauth.model.ErrorResponse;
 import com.azuriom.azauth.model.User;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import org.jetbrains.annotations.Blocking;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Objects;
@@ -95,8 +91,8 @@ public class AuthClient {
      */
     @Blocking
     public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
-                                           @NotNull String password,
-                                           @Nullable String code2fa) throws AuthException {
+                                                    @NotNull String password,
+                                                    @Nullable String code2fa) throws AuthException {
         return this.login(email, password, code2fa, User.class);
     }
 
@@ -112,8 +108,8 @@ public class AuthClient {
      */
     @Blocking
     public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
-                                            @NotNull String password,
-                                            @NotNull Class<T> responseType) throws AuthException {
+                                                     @NotNull String password,
+                                                     @NotNull Class<T> responseType) throws AuthException {
         return login(email, password, (String) null, responseType);
     }
 
@@ -189,9 +185,9 @@ public class AuthClient {
      */
     @Blocking
     public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
-                                            @NotNull String password,
-                                            @Nullable String code2fa,
-                                            @NotNull Class<T> responseType) throws AuthException {
+                                                     @NotNull String password,
+                                                     @Nullable String code2fa,
+                                                     @NotNull Class<T> responseType) throws AuthException {
         JsonObject body = new JsonObject();
         body.addProperty("email", email);
         body.addProperty("password", password);
@@ -253,26 +249,17 @@ public class AuthClient {
 
     @Blocking
     @Contract("_, _, null -> null; _, _, !null -> !null")
-    private <T> AuthResult<T> post(@NotNull String endPoint, @NotNull JsonObject body,
+    private <T> AuthResult<T> post(@NotNull String endpoint,
+                                   @NotNull JsonObject body,
                                    @Nullable Class<T> responseType) throws AuthException {
         try {
-            return this.doPost(endPoint, body, responseType);
-        } catch (IOException e) {
-            throw new AuthException(e);
-        }
-    }
-
-    @Blocking
-    @Contract("_, _, null -> null; _, _, !null -> !null")
-    private <T> AuthResult<T> doPost(@NotNull String endPoint, @NotNull JsonObject body, @Nullable Class<T> responseType)
-            throws AuthException, IOException {
-        try {
-            URL apiUrl = new URL(this.url + "/api/auth/" + endPoint);
-            HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+            URI api = URI.create(this.url + "/api/auth/" + endpoint);
+            HttpURLConnection connection = (HttpURLConnection) api.toURL().openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
-            connection.addRequestProperty("User-Agent", "AzAuth authenticator v1");
+            connection.setUseCaches(false);
             connection.addRequestProperty("Content-Type", "application/json; charset=utf-8");
+            connection.addRequestProperty("User-Agent", "AzAuth authenticator v1");
 
             try (OutputStream out = connection.getOutputStream()) {
                 out.write(body.toString().getBytes(StandardCharsets.UTF_8));
@@ -294,7 +281,8 @@ public class AuthClient {
         }
     }
 
-    private <T> AuthResult<T> handleResponse(HttpURLConnection connection, Class<T> type) throws AuthException, IOException {
+    private <T> AuthResult<T> handleResponse(HttpURLConnection connection, Class<T> type)
+            throws AuthException, IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             T response = GSON.fromJson(reader, type);
 
@@ -320,7 +308,7 @@ public class AuthClient {
 
             throw new AuthException(response.getMessage());
         } catch (JsonParseException e) {
-            throw new AuthException("Invalid JSON response from API (http " + status + ")");
+            throw new AuthException("Invalid JSON response from API (HTTP " + status + ")", e);
         }
     }
 }
