@@ -2,6 +2,7 @@ package com.azuriom.azauth;
 
 import com.azuriom.azauth.exception.AuthException;
 import com.azuriom.azauth.model.User;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariables;
@@ -21,7 +22,7 @@ class ClientTest {
 
     @Test
     void testAuthenticateAndLogout() {
-        AuthResult<User> result = assertDoesNotThrow(() -> this.client.login(this.testEmail, this.testPassword));
+        AuthResult<@NonNull User> result = assertDoesNotThrow(() -> this.client.login(this.testEmail, this.testPassword));
         assertTrue(result.isSuccess());
 
         User user = result.getSuccessResult();
@@ -35,13 +36,13 @@ class ClientTest {
 
         assertEquals(user, verifyResult);
         assertDoesNotThrow(() -> this.client.logout(user.getAccessToken()));
-        assertThrows(AuthException.class, () -> client.verify(user.getAccessToken()));
+        assertThrows(AuthException.class, () -> this.client.verify(user.getAccessToken()));
     }
 
     @Test
     void testAuthenticateWithType() {
-        AuthResult<CustomUser> result = assertDoesNotThrow(() ->
-                client.login(this.testEmail, this.testPassword, CustomUser.class));
+        AuthResult<@NonNull CustomUser> result = assertDoesNotThrow(() ->
+                this.client.login(this.testEmail, this.testPassword, CustomUser.class));
 
         assertTrue(result.isSuccess());
         assertEquals(this.testEmail, result.getSuccessResult().email);

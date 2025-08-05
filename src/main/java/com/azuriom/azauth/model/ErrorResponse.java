@@ -1,18 +1,19 @@
 package com.azuriom.azauth.model;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
 /**
  * The content of the response when an error occurs.
  */
+@NullMarked
 public class ErrorResponse {
 
     private final String status;
     private final String message;
-    private final String reason;
+    private final @Nullable String reason;
 
     /**
      * Create a new error response.
@@ -21,7 +22,7 @@ public class ErrorResponse {
      * @param message the response message
      * @param reason  the response reason
      */
-    public ErrorResponse(@NotNull String status, @NotNull String message, @Nullable String reason) {
+    public ErrorResponse(String status, String message, @Nullable String reason) {
         this.status = Objects.requireNonNull(status, "status");
         this.message = Objects.requireNonNull(message, "message");
         this.reason = reason;
@@ -32,7 +33,7 @@ public class ErrorResponse {
      *
      * @return the response status
      */
-    public @NotNull String getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
@@ -41,7 +42,7 @@ public class ErrorResponse {
      *
      * @return the response message
      */
-    public @NotNull String getMessage() {
+    public String getMessage() {
         return this.message;
     }
 
@@ -51,7 +52,7 @@ public class ErrorResponse {
      * @return the reason
      */
     public @Nullable String getReason() {
-        return reason;
+        return this.reason;
     }
 
     @Override

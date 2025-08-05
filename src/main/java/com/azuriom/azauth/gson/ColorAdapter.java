@@ -3,12 +3,12 @@ package com.azuriom.azauth.gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.NullMarked;
 
 import java.awt.*;
 import java.io.IOException;
 
-@ApiStatus.Internal
+@NullMarked
 public class ColorAdapter extends TypeAdapter<Color> {
 
     @Override

@@ -1,6 +1,6 @@
 package com.azuriom.azauth.model;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -9,6 +9,7 @@ import java.util.UUID;
 /**
  * Represents a user on the website.
  */
+@NullMarked
 public class User {
 
     private final String username;
@@ -31,10 +32,10 @@ public class User {
      * @param uuid          the user unique id
      * @param accessToken   the user access token
      * @param email         the user email address
-     * @param emailVerified is the email address verified
+     * @param emailVerified if the email address is verified
      * @param money         the user money
      * @param role          the user role
-     * @param banned        is the user banned
+     * @param banned        if the user is banned
      * @param createdAt     the user registration date
      */
     public User(int id, String username, UUID uuid, String accessToken, String email, boolean emailVerified, double money, Role role, boolean banned, Instant createdAt) {
@@ -65,7 +66,7 @@ public class User {
      *
      * @return the user username
      */
-    public @NotNull String getUsername() {
+    public String getUsername() {
         return this.username;
     }
 
@@ -74,7 +75,7 @@ public class User {
      *
      * @return the user unique id
      */
-    public @NotNull UUID getUuid() {
+    public UUID getUuid() {
         return this.uuid;
     }
 
@@ -83,7 +84,7 @@ public class User {
      *
      * @return the user access token
      */
-    public @NotNull String getAccessToken() {
+    public String getAccessToken() {
         return this.accessToken;
     }
 
@@ -92,7 +93,7 @@ public class User {
      *
      * @return the user email address
      */
-    public @NotNull String getEmail() {
+    public String getEmail() {
         return this.email;
     }
 
@@ -119,7 +120,7 @@ public class User {
      *
      * @return the user role
      */
-    public @NotNull Role getRole() {
+    public Role getRole() {
         return this.role;
     }
 
@@ -137,7 +138,7 @@ public class User {
      *
      * @return the user registration date
      */
-    public @NotNull Instant getCreatedAt() {
+    public Instant getCreatedAt() {
         return this.createdAt;
     }
 

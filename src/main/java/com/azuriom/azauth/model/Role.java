@@ -1,6 +1,6 @@
 package com.azuriom.azauth.model;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.awt.*;
 import java.util.Objects;
@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * Represents a user's role on the website.
  */
+@NullMarked
 public class Role {
 
     private final String name;
@@ -19,7 +20,7 @@ public class Role {
      * @param name  the role name
      * @param color the role color
      */
-    public Role(@NotNull String name, @NotNull Color color) {
+    public Role(String name, Color color) {
         this.name = Objects.requireNonNull(name, "name");
         this.color = Objects.requireNonNull(color, "color");
     }
@@ -29,7 +30,7 @@ public class Role {
      *
      * @return the role name
      */
-    public @NotNull String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -38,7 +39,7 @@ public class Role {
      *
      * @return the role color
      */
-    public @NotNull Color getColor() {
+    public Color getColor() {
         return this.color;
     }
 

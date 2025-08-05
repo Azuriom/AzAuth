@@ -3,13 +3,13 @@ package com.azuriom.azauth.gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.NullMarked;
 
 import java.io.IOException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
-@ApiStatus.Internal
+@NullMarked
 public class InstantAdapter extends TypeAdapter<Instant> {
 
     @Override

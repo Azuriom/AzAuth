@@ -7,10 +7,8 @@ import com.azuriom.azauth.gson.UuidAdapter;
 import com.azuriom.azauth.model.ErrorResponse;
 import com.azuriom.azauth.model.User;
 import com.google.gson.*;
-import org.jetbrains.annotations.Blocking;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -28,7 +26,9 @@ import java.util.logging.Logger;
 
 /**
  * The authentication client for Azuriom.
+ * All methods perform blocking operations and should not be called on a non-blocking thread.
  */
+@NullMarked
 public class AuthClient {
 
     private static final Logger LOGGER = Logger.getLogger(AuthClient.class.getName());
@@ -40,14 +40,14 @@ public class AuthClient {
             .registerTypeAdapter(UUID.class, new UuidAdapter())
             .create();
 
-    private final @NotNull String url;
+    private final String url;
 
     /**
-     * Construct a new AzAuthenticator instance.
+     * Construct a new AzAuthenticator instance, with the given website URL.
      *
      * @param url the website url
      */
-    public AuthClient(@NotNull String url) {
+    public AuthClient(String url) {
         Objects.requireNonNull(url, "url");
 
         this.url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
@@ -62,7 +62,7 @@ public class AuthClient {
      *
      * @return the website url
      */
-    public @NotNull String getUrl() {
+    public String getUrl() {
         return this.url;
     }
 
@@ -74,9 +74,7 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
-                                                    @NotNull String password) throws AuthException {
+    public AuthResult<User> login(String email, String password) throws AuthException {
         return this.login(email, password, User.class);
     }
 
@@ -89,10 +87,9 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public @NotNull AuthResult<@NotNull User> login(@NotNull String email,
-                                                    @NotNull String password,
-                                                    @Nullable String code2fa) throws AuthException {
+    public AuthResult<User> login(String email,
+                                  String password,
+                                  @Nullable String code2fa) throws AuthException {
         return this.login(email, password, code2fa, User.class);
     }
 
@@ -106,10 +103,9 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
-                                                     @NotNull String password,
-                                                     @NotNull Class<T> responseType) throws AuthException {
+    public <T> AuthResult<T> login(String email,
+                                   String password,
+                                   Class<T> responseType) throws AuthException {
         return login(email, password, (String) null, responseType);
     }
 
@@ -123,10 +119,9 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public @NotNull User login(@NotNull String email,
-                               @NotNull String password,
-                               @NotNull Supplier<String> codeSupplier) throws AuthException {
+    public User login(String email,
+                      String password,
+                      Supplier<String> codeSupplier) throws AuthException {
         return login(email, password, codeSupplier, User.class);
     }
 
@@ -142,11 +137,10 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public <T> @NotNull T login(@NotNull String email,
-                                @NotNull String password,
-                                @NotNull Supplier<String> codeSupplier,
-                                @NotNull Class<T> responseType) throws AuthException {
+    public <T> T login(String email,
+                       String password,
+                       Supplier<@Nullable String> codeSupplier,
+                       Class<T> responseType) throws AuthException {
         AuthResult<T> result = login(email, password, responseType);
 
         if (result.isSuccess()) {
@@ -183,11 +177,10 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public <T> @NotNull AuthResult<@NotNull T> login(@NotNull String email,
-                                                     @NotNull String password,
-                                                     @Nullable String code2fa,
-                                                     @NotNull Class<T> responseType) throws AuthException {
+    public <T> AuthResult<T> login(String email,
+                                   String password,
+                                   @Nullable String code2fa,
+                                   Class<T> responseType) throws AuthException {
         JsonObject body = new JsonObject();
         body.addProperty("email", email);
         body.addProperty("password", password);
@@ -203,8 +196,7 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public @NotNull User verify(@NotNull String accessToken) throws AuthException {
+    public User verify(String accessToken) throws AuthException {
         return this.verify(accessToken, User.class);
     }
 
@@ -217,9 +209,7 @@ public class AuthClient {
      * @return the user profile
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public <T> @NotNull T verify(@NotNull String accessToken, @NotNull Class<T> responseType)
-            throws AuthException {
+    public <T> T verify(String accessToken, Class<T> responseType) throws AuthException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
 
@@ -234,24 +224,20 @@ public class AuthClient {
 
     /**
      * Invalidate the given access token.
-     * To get a new valid access token you need to use {@link #login(String, String)} again.
+     * To get a new valid access token, you need to use {@link #login(String, String)} again.
      *
      * @param accessToken the user access token
      * @throws AuthException if an error occurs (IO exception, invalid credentials, etc)
      */
-    @Blocking
-    public void logout(@NotNull String accessToken) throws AuthException {
+    public void logout(String accessToken) throws AuthException {
         JsonObject body = new JsonObject();
         body.addProperty("access_token", accessToken);
 
-        this.post("logout", body, null);
+        this.post("logout", body, JsonNull.class);
     }
 
-    @Blocking
-    @Contract("_, _, null -> null; _, _, !null -> !null")
-    private <T> AuthResult<T> post(@NotNull String endpoint,
-                                   @NotNull JsonObject body,
-                                   @Nullable Class<T> responseType) throws AuthException {
+    private <T> AuthResult<T> post(String endpoint, JsonObject body, Class<T> responseType)
+            throws AuthException {
         try {
             URI api = URI.create(this.url + "/api/auth/" + endpoint);
             HttpURLConnection connection = (HttpURLConnection) api.toURL().openConnection();
@@ -271,18 +257,18 @@ public class AuthClient {
                 return this.handleClientError(connection);
             }
 
-            if (responseType == null) {
-                return null;
-            }
-
             return handleResponse(connection, responseType);
         } catch (IOException e) {
             throw new AuthException(e);
         }
     }
 
-    private <T> AuthResult<T> handleResponse(HttpURLConnection connection, Class<T> type)
+    private <T> AuthResult<T> handleResponse(HttpURLConnection connection, Class<@Nullable T> type)
             throws AuthException, IOException {
+        if (type == JsonNull.class) {
+            return new AuthResult.Success<>(type.cast(JsonNull.INSTANCE));
+        }
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             T response = GSON.fromJson(reader, type);
 

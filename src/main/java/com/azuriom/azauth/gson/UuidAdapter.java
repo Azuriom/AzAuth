@@ -4,12 +4,12 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.NullMarked;
 
 import java.io.IOException;
 import java.util.UUID;
 
-@ApiStatus.Internal
+@NullMarked
 public class UuidAdapter extends TypeAdapter<UUID> {
 
     @Override
