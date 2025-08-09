@@ -15,7 +15,7 @@ A Java implementation of the Azuriom Auth API.
     <dependency>
         <groupId>com.azuriom</groupId>
         <artifactId>azauth</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 </dependencies>
 ```
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.azuriom:azauth:1.0.0'
+    implementation 'com.azuriom:azauth:1.1.0'
 }
 ```
 
